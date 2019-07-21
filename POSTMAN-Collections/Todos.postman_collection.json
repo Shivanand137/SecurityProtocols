@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "84e945c6-664b-4593-b1f4-8c9f11f44332",
+		"name": "Todos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Todos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todos Per User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/todos/users/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"todos",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Todos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Todos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"title\": \"Test todo item\",\r\n\t\"completed\": false\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Todos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 155,\r\n    \"userId\": 1,\r\n    \"title\": \"Title update: Testing 12345\",\r\n\t\"completed\": false\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Todos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3MjMyMzMsImlzcyI6IlRvZG9BUEkiLCJhdWQiOiJUb2RvQVBJQXVkaWVuY2UifQ.oUncSwkziUL0Zm7hxKOe1ZlAMarYqHGZ_ZP2cKkgLmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Todos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Todos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
