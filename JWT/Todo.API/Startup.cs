@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Text;
+using System.Threading.Tasks;
 using Todo.Entities;
 using Todo.Services;
 using Todo.Services.Implementation;
@@ -23,6 +28,40 @@ namespace Todo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add Authentication
+            services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
+            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            var secrets = Configuration.GetSection("secretSettings").Get<SecretManagement>();
+
+            services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = token.Issuer,
+                    ValidAudience = token.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secrets.TokenSecret))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        context.Fail("User Failed to Authenticate.");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
             // Register CORS
             services.AddCors();
 
@@ -45,6 +84,16 @@ namespace Todo.API
                     Title = "Todo API",
                     Description = "A Simple ASP.NET Core API with JWT Implementation!"
                 });
+
+                x.AddSecurityDefinition("jwt", new ApiKeyScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                    In = "header",
+                    Name = "Authorization",
+                    Type = "apiKey"
+                });
+
+                x.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
             // Register MVC Services
@@ -71,6 +120,8 @@ namespace Todo.API
                 c.SwaggerEndpoint("/swagger/swagger/v1/swagger.json", "Todo API - V1");
             });
 
+
+            app.UseAuthentication();
 
             // Bad practice, but okay for this dummy app.
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
