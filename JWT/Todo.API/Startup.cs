@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using Todo.Entities;
 using Todo.Services;
@@ -35,6 +36,17 @@ namespace Todo.API
             // Register Dependencies
             services.AddTransient<ITodoService, TodoService>();
 
+            // Register Swagger
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new Info()
+                {
+                    Version = "v1",
+                    Title = "Todo API",
+                    Description = "A Simple ASP.NET Core API with JWT Implementation!"
+                });
+            });
+
             // Register MVC Services
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -51,6 +63,14 @@ namespace Todo.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Enable Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/swagger/v1/swagger.json", "Todo API - V1");
+            });
+
 
             // Bad practice, but okay for this dummy app.
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

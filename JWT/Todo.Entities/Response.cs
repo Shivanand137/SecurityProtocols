@@ -2,8 +2,8 @@
 {
     public class Response<T>
     {
-        public bool IsSuccess { get; protected set; }
-        public string Message { get; protected set; }
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
         public T Data { get; set; }
 
         public static Response<T> Success(string message)

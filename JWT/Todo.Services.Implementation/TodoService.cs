@@ -53,8 +53,8 @@ namespace Todo.Services.Implementation
                 var jsonObject = JsonConvert.SerializeObject(todo);
                 var stringContent = new StringContent(jsonObject, HttpClientSettings.Encoding, HttpClientSettings.MediaType);
                 var response = await _client.PostAsync(ApiEndpoints.Todos, stringContent);
-                if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
-                    return Response<bool>.Success("Todo item added successfully!");
+                if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.Created)
+                    return Response<bool>.Success("Todo item added successfully!", true);
             }
             return Response<bool>.Failure("Could not add todo item.");
         }
@@ -65,7 +65,7 @@ namespace Todo.Services.Implementation
             {
                 var response = await _client.DeleteAsync($"{ApiEndpoints.Todos}/{todoId}");
                 if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
-                    return Response<bool>.Success("Todo item deleted successfully!");
+                    return Response<bool>.Success("Todo item deleted successfully!", true);
             }
             return Response<bool>.Failure("Could not delete todo item.");
         }
@@ -78,7 +78,7 @@ namespace Todo.Services.Implementation
                 var stringContent = new StringContent(jsonObject, HttpClientSettings.Encoding, HttpClientSettings.MediaType);
                 var response = await _client.PutAsync($"{ApiEndpoints.Todos}/{todo.Id}", stringContent);
                 if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
-                    return Response<bool>.Success("Todo item updated successfully!");
+                    return Response<bool>.Success("Todo item updated successfully!", true);
             }
             return Response<bool>.Failure("Could not update todo item.");
         }
